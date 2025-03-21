@@ -50,7 +50,10 @@ import { ThemedLoadingComponent } from '../../../shared/loading/themed-loading.c
 import { getMockFormBuilderService } from '../../../shared/mocks/form-builder-service.mock';
 import { NotificationsService } from '../../../shared/notifications/notifications.service';
 import { PaginationComponent } from '../../../shared/pagination/pagination.component';
-import { createFailedRemoteDataObject$, createSuccessfulRemoteDataObject$ } from '../../../shared/remote-data.utils';
+import {
+  createFailedRemoteDataObject$,
+  createSuccessfulRemoteDataObject$,
+} from '../../../shared/remote-data.utils';
 import { ActivatedRouteStub } from '../../../shared/testing/active-router.stub';
 import { AuthServiceStub } from '../../../shared/testing/auth-service.stub';
 import {
@@ -549,7 +552,7 @@ describe('EPersonFormComponent', () => {
 
     it('should show success notification on successful operation', () => {
       const response = createSuccessfulRemoteDataObject$(null);
-      const successSpy = spyOn(component['notificationsService'], 'success');
+      const successSpy = spyOn((component as any).notificationsService, 'success');
 
       component.showNotifications('deleteMembership', response, 'TestGroup', EPersonMock);
 
@@ -558,7 +561,7 @@ describe('EPersonFormComponent', () => {
 
     it('should show error notification when response hasSucceeded is false', () => {
       const response = createFailedRemoteDataObject$(null);
-      const errorSpy = spyOn(component['notificationsService'], 'error');
+      const errorSpy = spyOn((component as any).notificationsService, 'error');
 
       component.showNotifications('deleteMembership', response, 'TestGroup', EPersonMock);
 

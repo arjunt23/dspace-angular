@@ -26,6 +26,7 @@ import {
   Observable,
   ObservedValueOf,
   of as observableOf,
+  of,
   Subscription,
 } from 'rxjs';
 import {
@@ -397,6 +398,9 @@ export class MembersListComponent implements OnInit, OnDestroy {
           }
         }),
         switchMap((epersonListRD: RemoteData<PaginatedList<EPerson>>) => {
+          if (!epersonListRD || !epersonListRD.payload || !epersonListRD.payload.page) {
+            return of(buildPaginatedList(undefined, []));
+          } // added null check
           const dtos$ = observableCombineLatest([...epersonListRD.payload.page.map((member: EPerson) => {
             const dto$: Observable<EpersonDtoModel> = observableCombineLatest(
               this.isMemberOfGroup(member), (isMember: ObservedValueOf<Observable<boolean>>) => {
